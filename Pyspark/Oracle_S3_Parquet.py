@@ -3,6 +3,7 @@ import os
 from pyspark.sql import *
 from pyspark.sql.functions import *
 from pyspark import *
+import s3_snowflake as utils
 spark = SparkSession.builder.master("local").appName("testing").getOrCreate()
 
 ora_url=sys.argv[1]
@@ -28,5 +29,9 @@ for x in tabs:
     # writing the tables into S3 as parquet format
     y= str(current_timestamp())
     file_path= 's3://s3bucketemp/' + x + '/' + x + y
+   
+    table=x
+    path = "x + '/' + x + y"
+    utils.s3_snowflake(path)
     df.write.parquet(file_path)
     # df.write.partitionBy("Year","Month").parquet("s3a://location")
